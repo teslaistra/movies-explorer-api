@@ -3,13 +3,15 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const Error404 = require('./errors/404-error');
 
-const { PORT = 3000 } = process.env;
+const limiter = require('./middlewares/rateLimit');
+const router = require('./routes/index');
+
+const { PORT = 3000, DB_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
 
 const app = express();
 
-mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb', {
+mongoose.connect(DB_URL, {
   useNewUrlParser: true,
 });
 
@@ -17,9 +19,9 @@ app.use(express.json());
 
 app.use(requestLogger); // подключаем логгер запросов
 
-app.use('/', (req, res, next) => {
-  next(new Error404('Запрашиваемый ресурс не найден'));
-});
+app.use(limiter);
+
+app.use(router);
 
 app.use(errorLogger); // подключаем логгер ошибок
 
