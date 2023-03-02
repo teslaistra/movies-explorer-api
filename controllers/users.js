@@ -73,6 +73,9 @@ module.exports.updateUser = (req, res, next) => {
       }
     })
     .catch((err) => {
+      if (err.name === 11000) {
+        return next(new UniqueError('Пользователь с таким email уже существует'));
+      }
       if (err.name === 'ValidationError') {
         return next(new ValidationError('Переданы некорректные данные при обновлении профиля'));
       }

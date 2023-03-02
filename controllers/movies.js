@@ -1,6 +1,7 @@
 const Movie = require('../models/movies');
 const ValidationError = require('../errors/400-error');
 const ForbiddenError = require('../errors/403-error');
+const NotFoundError = require('../errors/404-error');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({ owner: req.user._id })
@@ -49,6 +50,7 @@ module.exports.createMovie = (req, res, next) => {
 
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.moviesId)
+    .orFail(() => { throw new NotFoundError('NotValidId'); })
     .then((movie) => {
       if (movie) {
         const ownerId = movie.owner.toString();
