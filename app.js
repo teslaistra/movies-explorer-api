@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { errorHandler } = require('./middlewares/error');
+const errorHandler = require('./middlewares/error');
 
 const limiter = require('./middlewares/rateLimit');
 const router = require('./routes/index');
