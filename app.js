@@ -6,6 +6,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error');
 
 const limiter = require('./middlewares/rateLimit');
+const cors = require('./middlewares/cors');
 const router = require('./routes/index');
 
 const { PORT = 3000, DB_URL } = process.env;
@@ -21,6 +22,8 @@ app.use(express.json());
 app.use(requestLogger); // подключаем логгер запросов
 
 app.use(limiter);
+
+app.use(cors);
 
 app.use(router);
 

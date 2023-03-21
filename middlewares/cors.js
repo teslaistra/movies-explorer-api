@@ -2,6 +2,7 @@
 const allowedCors = [
   'https://diploma.teslaistra.ru',
   'http://diploma.teslaistra.ru',
+  'http://localhost:3000'
 ];
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
